@@ -1,9 +1,13 @@
 import { useRef } from "react";
+import ProjectDisplay from "./ProjectDisplay";
 
 export default function Idle({
   actionState,
   handleCancelClick,
+  handleAddProjectClick,
   handleSaveClick,
+  displayedProject,
+  handleProjectDelete,
 }) {
   const title = useRef(0);
   const description = useRef(0);
@@ -15,10 +19,13 @@ export default function Idle({
       <div className="w-2/3 bg-cyan-500 flex flex-col justify-center items-center">
         <h2>NO PROJECT SELECTED</h2>
         <p>Select a project or get started with a new one</p>
-        <button className="bg-gray-500"> Create a new project</button>
+        <button className="bg-gray-500" onClick={handleAddProjectClick}>
+          {" "}
+          Create a new project
+        </button>
       </div>
     );
-  } else {
+  } else if (actionState === "AddingProject") {
     mainWindow = (
       <div className="bg-gray-500 flex flex-col justify-center items-center">
         <div className="w-10/12">
@@ -47,6 +54,13 @@ export default function Idle({
           </form>
         </div>
       </div>
+    );
+  } else if (actionState === "DisplayProject") {
+    mainWindow = (
+      <ProjectDisplay
+        project={displayedProject}
+        handleProjectDelete={handleProjectDelete}
+      />
     );
   }
 

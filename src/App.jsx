@@ -1,10 +1,43 @@
 import Idle from "./components/Idle";
-import ProjectList from "./components/ProjectList";
-import { useState } from "react";
 
+import { useState } from "react";
+import ProjectList from "./components/ProjectList.jsx";
 function App() {
   let [actionState, setActionState] = useState("Idle");
   let [projectList, setProjectList] = useState([]);
+  let [displayedProject, setDisplayedProject] = useState({});
+
+  const handleProjectDelete = (id) => {
+    setProjectList((prevList) => {
+      let newList = [...prevList];
+      console.log("OLD LIST", prevList);
+      console.log("ID To remOVE", id);
+
+      console.log("NEW LIST", newList);
+      if (newList.length == 1) {
+        newList = [];
+      } else {
+        newList.splice(parseInt(id), 1);
+      }
+
+      console.log("NEW LIST SPLICED", newList);
+
+      setActionState("Idle");
+
+      for (let i = 0; i < newList.length; i++) {
+        newList[i].id = i;
+      }
+
+      return newList;
+    });
+  };
+
+  const handleProjectClick = (index) => {
+    console.log("viewing project");
+    setActionState("DisplayProject");
+    setDisplayedProject(projectList[index]);
+    console.log(index);
+  };
 
   const handleAddProjectClick = () => {
     console.log("add project clicked");
@@ -20,11 +53,10 @@ function App() {
     console.log("Save Project");
     setActionState("Idle");
 
-    let addedProject = { title: title, description: desc, date: date };
+    let addedProject = { title: title, description: desc, date: date, id: -1 };
     if (title === "" || date === "") {
       console.log("ignore input");
     } else {
-      let proj = 4;
       setProjectList((prevList) => {
         let newList = [];
         if (projectList.length === 0) {
@@ -32,14 +64,15 @@ function App() {
           newList = [...prevList];
         }
         newList.push(addedProject);
-        console.log("prev", prevList);
-        //let newList = [2, 5, 6];
+
+        for (let i = 0; i < newList.length; i++) {
+          newList[i].id = i;
+        }
+
         return newList;
       });
     }
   };
-
-  console.log(projectList);
 
   return (
     <>
@@ -47,11 +80,16 @@ function App() {
         <ProjectList
           handleAddProjectClick={handleAddProjectClick}
           projectList={projectList}
+          handleProjectClick={handleProjectClick}
+          handleProjectDelete={handleProjectDelete}
         />
         <Idle
           actionState={actionState}
           handleCancelClick={handleCancelClick}
+          handleAddProjectClick={handleAddProjectClick}
           handleSaveClick={handleSaveClick}
+          displayedProject={displayedProject}
+          handleProjectDelete={handleProjectDelete}
         />
       </div>
     </>

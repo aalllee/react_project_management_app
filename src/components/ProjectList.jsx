@@ -1,9 +1,19 @@
 import Project from "./Project";
 
-export default function ProjectList({ handleAddProjectClick, projectList }) {
+export default function ProjectList({
+  handleAddProjectClick,
+  projectList,
+  handleProjectClick,
+}) {
   let projects = projectList.map((project, index) => (
-    <button key={index} className="text-white bg-gray-500">
-      {project.description}
+    <button
+      key={index}
+      className="text-white bg-gray-500"
+      onClick={() => {
+        handleProjectClick(index);
+      }}
+    >
+      {`${project.id + 1}. ${project.title}`}
     </button>
   ));
 
@@ -19,7 +29,7 @@ export default function ProjectList({ handleAddProjectClick, projectList }) {
         Add Project
       </button>
 
-      <ul className="flex flex-col">{projects}</ul>
+      <ul className="flex flex-col ">{projects}</ul>
     </div>
   );
 }

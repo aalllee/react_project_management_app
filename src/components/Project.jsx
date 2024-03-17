@@ -1,3 +1,7 @@
 export default function Project() {
-  return <button>Project</button>;
+  return (
+    <div>
+      <button>Project</button>
+    </div>
+  );
 }
