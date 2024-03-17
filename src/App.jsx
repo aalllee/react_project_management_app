@@ -76,7 +76,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-row h-96">
+      <div className="flex flex-row h-screen ">
         <ProjectList
           handleAddProjectClick={handleAddProjectClick}
           projectList={projectList}

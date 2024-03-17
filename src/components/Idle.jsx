@@ -16,7 +16,7 @@ export default function Idle({
   let mainWindow = {};
   if (actionState === "Idle") {
     mainWindow = (
-      <div className="w-2/3 bg-cyan-500 flex flex-col justify-center items-center">
+      <div className="w-full bg-cyan-500 flex flex-col justify-center items-center">
         <h2>NO PROJECT SELECTED</h2>
         <p>Select a project or get started with a new one</p>
         <button className="bg-gray-500" onClick={handleAddProjectClick}>
@@ -27,7 +27,7 @@ export default function Idle({
     );
   } else if (actionState === "AddingProject") {
     mainWindow = (
-      <div className="bg-gray-500 flex flex-col justify-center items-center">
+      <div className="w-full bg-gray-500 flex flex-col justify-center items-center">
         <div className="w-10/12">
           <div className="flex justify-end bg-gray-300">
             <button
