@@ -1,5 +1,5 @@
-import Idle from "./components/Idle";
-
+import MainDisplay from "./components/MainDisplay.jsx";
+import IdleDisplay from "./components/IdleDisplay.jsx";
 import { useState } from "react";
 import ProjectList from "./components/ProjectList.jsx";
 function App() {
@@ -7,20 +7,36 @@ function App() {
   let [projectList, setProjectList] = useState([]);
   let [displayedProject, setDisplayedProject] = useState({});
 
+  const handleAddTask = (id, task) => {
+    console.log("handle add task for ID:", id, " ", task);
+
+    setProjectList((prevList) => {
+      let newList = prevList.map((project) => {
+        let newTasks = [...project.tasks];
+
+        if (project.id === id) {
+          console.log("ID MATCH");
+          newTasks.push(task);
+        }
+
+        return { ...project, tasks: newTasks };
+      });
+
+      setDisplayedProject(newList[id]);
+
+      return newList;
+    });
+  };
+
   const handleProjectDelete = (id) => {
     setProjectList((prevList) => {
       let newList = [...prevList];
-      console.log("OLD LIST", prevList);
-      console.log("ID To remOVE", id);
 
-      console.log("NEW LIST", newList);
       if (newList.length == 1) {
         newList = [];
       } else {
         newList.splice(parseInt(id), 1);
       }
-
-      console.log("NEW LIST SPLICED", newList);
 
       setActionState("Idle");
 
@@ -33,27 +49,28 @@ function App() {
   };
 
   const handleProjectClick = (index) => {
-    console.log("viewing project");
     setActionState("DisplayProject");
     setDisplayedProject(projectList[index]);
-    console.log(index);
   };
 
   const handleAddProjectClick = () => {
-    console.log("add project clicked");
     setActionState("AddingProject");
   };
 
   const handleCancelClick = () => {
-    console.log("add action cancelled");
     setActionState("Idle");
   };
 
   const handleSaveClick = (title, desc, date) => {
-    console.log("Save Project");
     setActionState("Idle");
 
-    let addedProject = { title: title, description: desc, date: date, id: -1 };
+    let addedProject = {
+      title: title,
+      description: desc,
+      date: date,
+      id: -1,
+      tasks: [],
+    };
     if (title === "" || date === "") {
       console.log("ignore input");
     } else {
@@ -83,13 +100,14 @@ function App() {
           handleProjectClick={handleProjectClick}
           handleProjectDelete={handleProjectDelete}
         />
-        <Idle
+        <MainDisplay
           actionState={actionState}
           handleCancelClick={handleCancelClick}
           handleAddProjectClick={handleAddProjectClick}
           handleSaveClick={handleSaveClick}
           displayedProject={displayedProject}
           handleProjectDelete={handleProjectDelete}
+          handleAddTask={handleAddTask}
         />
       </div>
     </>

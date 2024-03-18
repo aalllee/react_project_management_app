@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { useRef } from "react";
-export default function ProjectDisplay({ project, handleProjectDelete }) {
+import Task from "./Task";
+import TaskList from "./TaskList";
+export default function ProjectDisplay({
+  project,
+  handleProjectDelete,
+  handleAddTask,
+}) {
   const [taskList, setTaskList] = useState([]);
   const task = useRef("");
   const handleAddClick = () => {
-    setTaskList((prevList) => {
-      let newList = [...prevList];
-      newList.push(task.current.value);
-
-      return newList;
-    });
+    if (task.current.value !== "") {
+      handleAddTask(project.id, task.current.value);
+    }
+    task.current.value = "";
   };
 
   return (
-    <div className="bg-white  p-10 flex flex-col justify-start items-start w-full">
+    <div className="bg-white  p-10 flex flex-col justify-start items-start w-full ">
       <div className="flex justify-between w-full h-100 ">
         <h1 className="text-2xl text-black">{project.title}</h1>
         <button
@@ -35,11 +39,7 @@ export default function ProjectDisplay({ project, handleProjectDelete }) {
             Add
           </button>
         </form>
-        {taskList.map((x, index) => (
-          <p className="bg-gray-200 p-5 my-2" key={index}>
-            {x}
-          </p>
-        ))}
+        <TaskList project={project} />
       </div>
     </div>
   );
