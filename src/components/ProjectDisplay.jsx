@@ -6,6 +6,7 @@ export default function ProjectDisplay({
   project,
   handleProjectDelete,
   handleAddTask,
+  handleClearTask,
 }) {
   const [taskList, setTaskList] = useState([]);
   const task = useRef("");
@@ -39,7 +40,7 @@ export default function ProjectDisplay({
             Add
           </button>
         </form>
-        <TaskList project={project} />
+        <TaskList project={project} handleClearTask={handleClearTask} />
       </div>
     </div>
   );

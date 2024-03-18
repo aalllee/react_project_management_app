@@ -10,6 +10,7 @@ export default function MainDisplay({
   displayedProject,
   handleProjectDelete,
   handleAddTask,
+  handleClearTask,
 }) {
   const title = useRef(0);
   const description = useRef(0);
@@ -31,6 +32,7 @@ export default function MainDisplay({
         project={displayedProject}
         handleProjectDelete={handleProjectDelete}
         handleAddTask={handleAddTask}
+        handleClearTask={handleClearTask}
       />
     );
   }

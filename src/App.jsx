@@ -28,6 +28,27 @@ function App() {
     });
   };
 
+  const handleClearTask = (id, projectId) => {
+    console.log("TASK ID", id);
+    console.log("Project ID", projectId);
+    setProjectList((prevList) => {
+      let newList = prevList.map((project) => {
+        let newTasks = [...project.tasks];
+
+        if (project.id === projectId) {
+          console.log("ID MATCH");
+          newTasks.splice(parseInt(id), 1);
+        }
+
+        return { ...project, tasks: newTasks };
+      });
+
+      setDisplayedProject(newList[projectId]);
+
+      return newList;
+    });
+  };
+
   const handleProjectDelete = (id) => {
     setProjectList((prevList) => {
       let newList = [...prevList];
@@ -108,6 +129,7 @@ function App() {
           displayedProject={displayedProject}
           handleProjectDelete={handleProjectDelete}
           handleAddTask={handleAddTask}
+          handleClearTask={handleClearTask}
         />
       </div>
     </>
